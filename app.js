@@ -1,17 +1,20 @@
-console.log('Starting app.js');
-
+const http = require('http');
 const fs = require('fs');
-const os = require('os');
-const _ = require('lodash');
-const notes = require('./notes.js');
 
-// console.log(_.isString(true));
-// console.log(_.isString('Andrew'));
-var filteredArray = _.uniq(['Andrew', 1, 'Andrew', 1, 2, 3, 4]);
-console.log(filteredArray);
+const hostname = '127.0.0.1';
+const port = 3000;
 
-// console.log('Result:', notes.add(9, -2));
-
-// var user = os.userInfo();
-//
-// fs.appendFile('greetings.txt', `Hello ${user.username}! You are ${notes.age}.`);
+fs.readFile('index.html', (err, html) => {
+  if(err){
+    throw err;
+  }
+  const server = http.createServer((req, res) =>{
+    res.statusCode = 200;
+    res.setHeader('Content-type', 'text/html');
+    res.write(html);
+    res.end();
+  });
+  server.listen(port, hostname, () => {
+    console.log("serving!!!! " + port)
+  })
+});
